@@ -9,9 +9,9 @@
 #pragma comment(lib, "Ole32.lib")
 
 // ================= GLOBAL VARIABLES =================
-char* g_downloadedData = nullptr;   
-size_t g_downloadedSize = 0;        
-
+char* g_downloadedData = nullptr;   //downloaded file which is global and can be used in other functions
+size_t g_downloadedSize = 0;        // data size
+// ====================================================
 
 struct ComInit {
     HRESULT hr;
@@ -19,11 +19,10 @@ struct ComInit {
     ~ComInit() { if (SUCCEEDED(hr)) ::CoUninitialize(); }
 };
 
-
 size_t in_memory_downloader(const std::wstring& url) {
-    // flushing variable
+    // flushing old data
     if (g_downloadedData) {
-        delete[] g_downloadedData;
+        delete[] g_downloadedData;  
         g_downloadedData = nullptr;
         g_downloadedSize = 0;
     }
@@ -77,12 +76,7 @@ int main() {
         std::cout << "❌ Download failed.\n";
     }
 
-    
-    if (g_downloadedData) {
-        delete[] g_downloadedData;
-        g_downloadedData = nullptr;
-        g_downloadedSize = 0;
-    }
+    // delete[] g_downloadedData;
 
     return 0;
 }
